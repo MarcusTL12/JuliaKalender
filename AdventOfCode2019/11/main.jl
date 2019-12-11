@@ -133,7 +133,7 @@ runintcode!(copy(program), input)
 
 
 function part1()
-    program = open(io->parse.(Int, split(String(read(io)), ',')), "input.txt")
+    program = open(io->parse.(Int, split(String(read(io)), ',')), "stian.txt")
     
     hull = Dict{Complex{Int}, Int}()
     
@@ -142,6 +142,7 @@ function part1()
     curpos = 0 + 0im
     dir = 1im
     
+    i = 0
     
     (col, dir_change), done, pc = runintcode!(program, [0])
     
@@ -150,8 +151,13 @@ function part1()
         dir *= ((dir_change * (-2) + 1) * 1im)
         curpos += dir
         
+        p = getpaint(curpos)
+        
+        i < 20 && (@show (pc[1]))
+        
         (col, dir_change), done, pc =
-        runintcode!(program, [getpaint(curpos)], pc)
+        runintcode!(program, [p], pc)
+        i += 1
     end
     
     length(keys(hull))
@@ -159,7 +165,7 @@ end
 
 
 function part2()
-    program = open(io->parse.(Int, split(String(read(io)), ',')), "input.txt")
+    program = open(io->parse.(Int, split(String(read(io)), ',')), "stian.txt")
     
     hull = Dict{Complex{Int}, Int}()
     
