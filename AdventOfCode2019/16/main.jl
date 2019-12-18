@@ -31,23 +31,22 @@ end
 
 
 function part2()
-    # inp = open(String ∘ read, "input.txt")
-    # inp = "12345678"
-    inp = "03036732577212944063491565474664"^10000
+    inp = open(String ∘ read, "input.txt")
+    
+    index = parse(Int, inp[1 : 7])
     
     signal = parse.(Int, Vector{Char}(inp))
-    signal2 = zeros(Int, length(signal))
     
-    for _ in 1 : 1
-        for i in 1 : length(signal)
-            n = 0
-            for j in 1 : length(signal)
-                n += signal[j] * patternat(j, i)
-            end
-            signal2[i] = abs(n) % 10
+    persignal(n) = signal[(n - 1) % length(signal) + 1]
+    
+    actualsignal = persignal.(index + 1 : 10000 * length(signal))
+    
+    for _ in 1 : 100
+        for i in length(actualsignal) - 1 : -1 : 1
+            actualsignal[i] += actualsignal[i + 1]
+            actualsignal[i] %= 10
         end
-        signal .= signal2
     end
     
-    mapreduce(string, *, signal2[303673:303673 + 8])
+    mapreduce(string, *, actualsignal[1:8])
 end
