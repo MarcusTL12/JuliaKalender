@@ -151,7 +151,7 @@ function syncer(stime)
 end
 
 function part2()
-    program = loadprogram("input.txt")
+    program = loadprogram("stian.txt")
     
     program[1] = 2
     
@@ -168,7 +168,7 @@ function part2()
     # enablerawmode()
     hidecursor()
     
-    s = syncer(0.02)
+    s = syncer(0.01)
     t = 0
     while !done
         if ball + balldir > paddle + 1
@@ -191,14 +191,12 @@ function part2()
         ball = nball
         
         
-        if nscore != 0 || true
-            drawgameboard(board, score, buff)
+        drawgameboard(board, score, buff)
         
-            t = s()
-            
-            clr()
-            print(String(take!(buff)))
-        end
+        t = s()
+        
+        clr()
+        print(String(take!(buff)))
     end
     
     print.(('\n' for _ in 1 : h + 2))
