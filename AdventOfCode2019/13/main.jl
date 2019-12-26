@@ -1,6 +1,6 @@
-
 include("../intcode.jl")
 
+using DynamicTerminal
 
 function makegameboard(out)
     amt_tiles = length(out) ÷ 3
@@ -76,7 +76,7 @@ function drawgameboard(board, score, io=stdout)
         println(buff, "       ")
     end
     
-    print(String(take!(buff)))
+    write(io, take!(buff))
 end
 
 
@@ -123,35 +123,28 @@ function part1()
     count(x->x==2, values(tiles))
 end
 
-using REPL
 
-resetcursor(lines::Int) = ()->print("\x1b[999D\x1b[$(lines - 1)A")
-clearline(io) = print(io, "\x1b[2K")
-key() = REPL.TerminalMenus.readKey()
-enablerawmode() = REPL.TerminalMenus.enableRawMode(
-    REPL.TerminalMenus.terminal
-)
-
-disablerawmode() = REPL.TerminalMenus.disableRawMode(
-    REPL.TerminalMenus.terminal
-)
-hidecursor() = print("\x1b[?25l")
-showcursor() = print("\x1b[?25h")
-
-function syncer(stime)
-    ptime = time()
+function part1()
+    program = loadprogram("input.txt")
     
-    function sync()
-        t = time()
-        Δt = t - ptime
-        (stime - Δt) > 0 && sleep(stime - Δt)
-        ptime = t + (stime - Δt)
-        stime - Δt
+    out, _, _ = runintcode(program)
+    
+    amt_tiles = length(out) ÷ 3
+    
+    out = reshape(out, 3, amt_tiles)
+    
+    tiles = Dict{Tuple{Int, Int}, Int}()
+    
+    for i in 1 : amt_tiles
+        tiles[out[1 : 2, i]...] = out[3, i]
     end
+    
+    count(x->x==2, values(tiles))
 end
 
+
 function part2()
-    program = loadprogram("stian.txt")
+    program = loadprogram("input.txt")
     
     program[1] = 2
     
@@ -162,14 +155,13 @@ function part2()
     
     h, w = size(board)
     
-    clr = resetcursor(h + 2)
     buff = IOBuffer()
     
-    # enablerawmode()
-    hidecursor()
+    cursor(false)
     
     s = syncer(0.01)
     t = 0
+    
     while !done
         if ball + balldir > paddle + 1
             inp = 1
@@ -195,14 +187,10 @@ function part2()
         
         t = s()
         
-        clr()
-        print(String(take!(buff)))
+        showandreset(buff)
     end
     
-    print.(('\n' for _ in 1 : h + 2))
-    
-    # disablerawmode()
-    showcursor()
+    cursor(true)
     
     score
 end
