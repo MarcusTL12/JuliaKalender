@@ -19,6 +19,5 @@ function main()
         end
     end
     
-    # sum(length, gluewords)
-    sum(length ∘ Vector{UInt8}, gluewords)
+    sum(length, gluewords)
 end
