@@ -1,0 +1,20 @@
+xxxxxxxxxxxxxxxxxxxx
+x ..x.ssssss...  x x
+x.xxxssssssss..  xxx
+x..sssssssssss  x  x
+x.ssssssssssss     x
+xsssssssssssss     x
+xssssssssssssxx    x
+xssssssssssssxx    x
+xssssssssssssxx    x
+x.sssssssssssxx    x
+x..ssssssssssxx    x
+xxxxxxsssssssxx    x
+x  ..ssssssss.     x
+x   sssssssss.     x
+x   ssssssss..     x
+x   sssssss...     x
+x  ..sssssxxxxxxxxxx
+x  ..xsssxxxxx     x
+x  ...   ...       x
+xxxxxxxxxxxxxxxxxxxx
